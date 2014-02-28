@@ -56,7 +56,7 @@
       })(),
       // The default markup and classes for creating the player:
       createPlayer: {
-        markup: '',
+        markup: '<span style="height:0px"></span>',
         playPauseClass: 'play-pause',
         scrubberClass: 'scrubber',
         progressClass: 'progress',
@@ -211,36 +211,16 @@
             return curleft;
           };
 
-      container[audiojs].events.addListener(playPause, 'click', function(e) {
-        audio.playPause.apply(audio);
-      });
+      
 
-      container[audiojs].events.addListener(scrubber, 'click', function(e) {
-        var relativeLeft = e.clientX - leftPos(this);
-        audio.skipTo(relativeLeft / scrubber.offsetWidth);
-      });
-
+      
       // _If flash is being used, then the following handlers don't need to be registered._
       if (audio.settings.useFlash) return;
 
       // Start tracking the load progress of the track.
       container[audiojs].events.trackLoadProgress(audio);
 
-      container[audiojs].events.addListener(audio.element, 'timeupdate', function(e) {
-        audio.updatePlayhead.apply(audio);
-      });
-
-      container[audiojs].events.addListener(audio.element, 'ended', function(e) {
-        audio.trackEnded.apply(audio);
-      });
-
-      container[audiojs].events.addListener(audio.source, 'error', function(e) {
-        // on error, cancel any load timers that are running.
-        clearInterval(audio.readyTimer);
-        clearInterval(audio.loadTimer);
-        audio.settings.loadError.apply(audio);
-      });
-
+      
     },
 
     // Flash requires a slightly different API to the `<audio>` element, so this method is used to overwrite the standard event handlers.
